@@ -6,6 +6,7 @@
 :set smarttab
 :set softtabstop=4
 :set mouse=a
+:set tags+=/path/to/my/tags
 
 call plug#begin()
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
@@ -20,6 +21,7 @@ Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
 " Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/maxbane/vim-asm_ca65' " vim-asm_ca65
+Plug 'https://github.com/pmizio/typescript-tools.nvim' " TypeScript Tools
 call plug#end()
 
 nnoremap <C-f> :NERDTreeFocus<CR>
