@@ -5,9 +5,27 @@ require("mason-lspconfig").setup()
 -- require("lspconfig").lua_ls.setup {}
 -- require("lspconfig").rust_analyzer.setup {}
 -- ...
-require('lspconfig').pylsp.setup({})
+--
+
+-- Python 
+require('lspconfig').jedi_language_server.setup({
+  settings = {
+    jedi = {
+      dynamic_params = true,
+      dynamic_array_additions = true,
+    }
+  }
+}
+)
+require('lspconfig').pyright.setup{}
+
+-- C 
 require('lspconfig').clangd.setup({})
+
+-- Lua
 require('lspconfig').lua_ls.setup({})
+
+-- JavaScript
 require('lspconfig').eslint.setup({
   settings = {
     packageManager = 'yarn'
@@ -20,4 +38,9 @@ require('lspconfig').eslint.setup({
     })
   end,
 })
+
+-- Typescript
 require('lspconfig').ts_ls.setup({})
+
+-- CSS
+require('lspconfig').cssls.setup({})
