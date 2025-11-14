@@ -25,10 +25,11 @@ return require('packer').startup(function(use)
   
   use({'hrsh7th/cmp-nvim-lsp'})
   use {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
-  } 
+     "williamboman/mason.nvim",
+     "williamboman/mason-lspconfig.nvim",
+     "neovim/nvim-lspconfig"
+   } 
+  use 'Exafunction/windsurf.vim'
   -- Using Packer:
   use 'Mofiqul/dracula.nvim'
 end)

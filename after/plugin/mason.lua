@@ -8,16 +8,26 @@ require("mason-lspconfig").setup()
 --
 
 -- Python 
-require('lspconfig').jedi_language_server.setup({
+-- require('lspconfig').jedi_language_server.setup({
+--   settings = {
+--     jedi = {
+--       dynamic_params = true,
+--       dynamic_array_additions = true,
+--     }
+--   }
+-- }
+-- )
+require('lspconfig').pyright.setup{
   settings = {
-    jedi = {
-      dynamic_params = true,
-      dynamic_array_additions = true,
-    }
-  }
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        typeCheckingMode = "basic",  -- or "strict" if you prefer
+      },
+    },
+  },
 }
-)
-require('lspconfig').pyright.setup{}
 
 -- C 
 require('lspconfig').clangd.setup({})
