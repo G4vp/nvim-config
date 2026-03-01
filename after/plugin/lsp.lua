@@ -5,14 +5,6 @@
 -- Reserve a space in the gutter
 vim.opt.signcolumn = 'yes'
 
--- Add cmp_nvim_lsp capabilities settings to lspconfig
--- This should be executed before you configure any language server
-local lspconfig_defaults = require('lspconfig').util.default_config
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-  'force',
-  lspconfig_defaults.capabilities,
-  require('cmp_nvim_lsp').default_capabilities()
-)
 
 -- This is where you enable features that only work
 -- if there is a language server active in the file
@@ -37,9 +29,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You'll find a list of language servers here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers. 
-require('lspconfig').gleam.setup({})
-require('lspconfig').ocamllsp.setup({})
- 
+local capabilities = vim.tbl_deep_extend(
+  'force',
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+)
+
+-- 2. Apply those capabilities when enabling your servers
+vim.lsp.enable('gleam', { capabilities = capabilities })
+vim.lsp.enable('ocamllsp', { capabilities = capabilities })
+
 local cmp = require('cmp')
 
 --local cmp_select = {behavior = cmp.SelectBehavior.Select}

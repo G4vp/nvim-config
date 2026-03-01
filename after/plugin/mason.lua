@@ -1,56 +1,40 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 
--- After setting up mason-lspconfig you may set up servers via lspconfig
--- require("lspconfig").lua_ls.setup {}
--- require("lspconfig").rust_analyzer.setup {}
--- ...
---
+-- 1. Get your completion capabilities (from your other file)
+local caps = require('cmp_nvim_lsp').default_capabilities()
 
--- Python 
--- require('lspconfig').jedi_language_server.setup({
---   settings = {
---     jedi = {
---       dynamic_params = true,
---       dynamic_array_additions = true,
---     }
---   }
--- }
--- )
-require('lspconfig').pyright.setup{
-  settings = {
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        typeCheckingMode = "basic",  -- or "strict" if you prefer
+-- 2. Define your server configurations
+local servers = {
+  pyright = {
+    settings = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          typeCheckingMode = "basic",
+        },
       },
     },
   },
+  clangd = {},
+  lua_ls = {},
+  ts_ls = {},
+  cssls = {},
+  eslint = {
+    settings = { packageManager = 'yarn' },
+    -- We can still use on_attach for server-specific logic
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        command = "EslintFixAll",
+      })
+    end,
+  },
 }
 
--- C 
-require('lspconfig').clangd.setup({})
-
--- Lua
-require('lspconfig').lua_ls.setup({})
-
--- JavaScript
-require('lspconfig').eslint.setup({
-  settings = {
-    packageManager = 'yarn'
-  },
-  ---@diagnostic disable-next-line: unused-local
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-  end,
-})
-
--- Typescript
-require('lspconfig').ts_ls.setup({})
-
--- CSS
-require('lspconfig').cssls.setup({})
+-- 3. Enable the servers using the new 0.11 API
+for server, config in pairs(servers) do
+  config.capabilities = caps
+  vim.lsp.enable(server, config)
+end
